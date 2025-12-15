@@ -28,6 +28,27 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   });
 });
 
+// تحديث رابط التنقل النشط (من الكود الثاني - فريد)
+window.addEventListener("scroll", function () {
+  const sections = document.querySelectorAll("section[id]");
+  const navLinks = document.querySelectorAll(".nav-links a");
+
+  let current = "";
+  sections.forEach((section) => {
+    const sectionTop = section.offsetTop - 100;
+    if (pageYOffset >= sectionTop) {
+      current = section.getAttribute("id");
+    }
+  });
+
+  navLinks.forEach((link) => {
+    link.classList.remove("active");
+    if (link.getAttribute("href") === `#${current}`) {
+      link.classList.add("active");
+    }
+  });
+});
+
 // شريط التقدم للتمرير
 window.addEventListener("scroll", function () {
   const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -134,13 +155,22 @@ document.querySelectorAll(".view-large").forEach((btn) => {
   });
 });
 
-closeModal.addEventListener("click", function () {
-  modal.style.display = "none";
-});
+if (closeModal) {
+  closeModal.addEventListener("click", function () {
+    modal.style.display = "none";
+  });
+}
 
+// إغلاق النوافذ المنبثقة عند النقر خارجها
 window.addEventListener("click", function (e) {
+  // للصور
   if (e.target === modal) {
     modal.style.display = "none";
+  }
+  // للفيديو
+  const videoModal = document.getElementById("videoModal");
+  if (e.target === videoModal) {
+    closeIntroVideo();
   }
 });
 
@@ -148,39 +178,196 @@ window.addEventListener("click", function (e) {
 const contactForm = document.getElementById("contactForm");
 const formMessage = document.getElementById("formMessage");
 
-contactForm.addEventListener("submit", function (e) {
-  e.preventDefault();
+if (contactForm) {
+  contactForm.addEventListener("submit", function (e) {
+    e.preventDefault();
 
-  // الحصول على القيم من النموذج
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const subject = document.getElementById("subject").value;
-  const message = document.getElementById("message").value;
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const subject = document.getElementById("subject").value;
+    const message = document.getElementById("message").value;
 
-  // التحقق من المدخلات
-  if (!name || !email || !subject || !message) {
-    showFormMessage("Please fill in all fields.", "error");
-    return;
-  }
+    if (!name || !email || !subject || !message) {
+      showFormMessage("Please fill in all fields.", "error");
+      return;
+    }
 
-  // هنا يمكنك إضافة كود لإرسال البيانات إلى الخادم
-  // في هذا المثال سنعرض رسالة نجاح فقط
-  showFormMessage(
-    "Thank you! Your message has been sent successfully. I will get back to you soon.",
-    "success"
-  );
+    showFormMessage(
+      "Thank you! Your message has been sent successfully. I will get back to you soon.",
+      "success"
+    );
 
-  // إعادة تعيين النموذج
-  contactForm.reset();
-});
+    contactForm.reset();
+  });
+}
 
 function showFormMessage(text, type) {
-  formMessage.textContent = text;
-  formMessage.className = "form-message " + type;
+  if (formMessage) {
+    formMessage.textContent = text;
+    formMessage.className = "form-message " + type;
 
-  setTimeout(() => {
-    formMessage.style.display = "none";
-  }, 5000);
+    setTimeout(() => {
+      formMessage.style.display = "none";
+    }, 5000);
+  }
+}
+
+// تشغيل الفيديو التعريفي (من الكود الثاني - فريد)
+function playIntroVideo() {
+  const modal = document.getElementById("videoModal");
+  const video = document.getElementById("introVideo");
+  if (modal && video) {
+    modal.style.display = "block";
+    video.play();
+  }
+}
+
+function closeIntroVideo() {
+  const modal = document.getElementById("videoModal");
+  const video = document.getElementById("introVideo");
+  if (modal && video) {
+    modal.style.display = "none";
+    video.pause();
+    video.currentTime = 0;
+  }
+}
+
+// التحكم في الصوت (من الكود الثاني - فريد)
+function playAudio() {
+  const audio = document.getElementById("testimonialAudio");
+  if (audio) audio.play();
+}
+
+function pauseAudio() {
+  const audio = document.getElementById("testimonialAudio");
+  if (audio) audio.pause();
+}
+
+function stopAudio() {
+  const audio = document.getElementById("testimonialAudio");
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0;
+  }
+}
+
+// تحديث عرض قيمة الميزانية (من الكود الثاني - فريد)
+const budgetRange = document.getElementById("budgetRange");
+const budgetValue = document.getElementById("budgetValue");
+
+if (budgetRange && budgetValue) {
+  budgetRange.addEventListener("input", function () {
+    const value = parseInt(this.value);
+    budgetValue.textContent = "$" + value.toLocaleString();
+  });
+}
+
+// معالجة إرسال نموذج الاستفسار عن المشروع (من الكود الثاني - فريد)
+const projectInquiryForm = document.getElementById("projectInquiryForm");
+if (projectInquiryForm) {
+  projectInquiryForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const formData = {
+      fullName: document.getElementById("fullName").value,
+      phoneNumber: document.getElementById("phoneNumber").value,
+      emailAddress: document.getElementById("emailAddress").value,
+      projectIdea: document.getElementById("projectIdea").value,
+      projectDescription: document.getElementById("projectDescription").value,
+      serviceType: document.getElementById("serviceType").value,
+      budgetRange: document.getElementById("budgetRange").value,
+      agreeTerms: document.getElementById("agreeTerms").checked,
+    };
+
+    const isValid = validateForm(formData);
+
+    if (isValid) {
+      const formMessage = document.getElementById("formMessage");
+      formMessage.textContent =
+        "Thank you! Your project inquiry has been submitted successfully. We will contact you within 24 hours.";
+      formMessage.className = "form-message success";
+
+      setTimeout(() => {
+        this.reset();
+        if (budgetValue) budgetValue.textContent = "$10,000";
+        formMessage.textContent = "";
+        formMessage.className = "form-message";
+      }, 5000);
+    }
+  });
+}
+
+// دالة التحقق من الصحة (من الكود الثاني - فريد)
+function validateForm(data) {
+  let isValid = true;
+
+  document.querySelectorAll(".error-message").forEach((el) => {
+    el.textContent = "";
+  });
+
+  if (!data.fullName.trim()) {
+    document.getElementById("nameError").textContent = "Full name is required";
+    isValid = false;
+  } else if (data.fullName.trim().length < 2) {
+    document.getElementById("nameError").textContent =
+      "Name must be at least 2 characters";
+    isValid = false;
+  }
+
+  if (!data.phoneNumber.trim()) {
+    document.getElementById("phoneError").textContent =
+      "Phone number is required";
+    isValid = false;
+  } else if (!/^[\d\s\-\+\(\)]{10,}$/.test(data.phoneNumber)) {
+    document.getElementById("phoneError").textContent =
+      "Please enter a valid phone number";
+    isValid = false;
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!data.emailAddress.trim()) {
+    document.getElementById("emailError").textContent =
+      "Email address is required";
+    isValid = false;
+  } else if (!emailRegex.test(data.emailAddress)) {
+    document.getElementById("emailError").textContent =
+      "Please enter a valid email address";
+    isValid = false;
+  }
+
+  if (!data.projectIdea.trim()) {
+    document.getElementById("ideaError").textContent =
+      "Project idea is required";
+    isValid = false;
+  } else if (data.projectIdea.trim().length < 10) {
+    document.getElementById("ideaError").textContent =
+      "Please provide a more detailed project idea";
+    isValid = false;
+  }
+
+  if (!data.projectDescription.trim()) {
+    document.getElementById("descriptionError").textContent =
+      "Project description is required";
+    isValid = false;
+  } else if (data.projectDescription.trim().length < 20) {
+    document.getElementById("descriptionError").textContent =
+      "Please provide a more detailed description";
+    isValid = false;
+  }
+
+  if (!data.serviceType) {
+    document.getElementById("serviceError").textContent =
+      "Please select a service type";
+    isValid = false;
+  }
+
+  if (!data.agreeTerms) {
+    document.getElementById("termsError").textContent =
+      "You must agree to the terms and conditions";
+    isValid = false;
+  }
+
+  return isValid;
 }
 
 // تهيئة الصفحة
@@ -198,4 +385,14 @@ document.addEventListener("DOMContentLoaded", function () {
   heroElements.forEach((el, index) => {
     el.style.animationDelay = 0.3 + index * 0.3 + "s";
   });
+
+  // تعيين سنة التحديث تلقائياً في الفوتر (من الكود الثاني - فريد)
+  const yearSpan = document.getElementById("currentYear");
+  if (yearSpan) {
+    yearSpan.textContent = new Date().getFullYear();
+  }
 });
+
+openTeamMemberProfile = function (profilePage) {
+  window.location.href = profilePage;
+}
