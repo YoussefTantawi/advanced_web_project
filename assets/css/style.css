@@ -212,15 +212,22 @@ nav {
   align-items: center;
   padding: 20px 0;
 }
-
 .logo {
+  display: flex;
+  align-items: center;      /* محاذاة عمودية مظبوطة */
+  gap: 12px;                /* مسافة بسيطة ومريحة */
+
   font-size: 1.8rem;
   font-weight: 700;
+  line-height: 0;           /* 👈 أهم سطر يحل المشكلة */
+
   background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+
 
 .nav-right {
   display: flex;
