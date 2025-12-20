@@ -1,4 +1,4 @@
-// ============ MAIN.JS UPDATED - SUBMIT FIX ============
+// ============ MAIN.JS UPDATED - FIXED SUBMIT ISSUE ============
 
 // ============ تهيئة الصفحة ============
 document.addEventListener("DOMContentLoaded", function () {
@@ -52,9 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
     // 7. تحميل البيانات الديناميكية
     loadDynamicData();
     
-    // 8. إضافة زر الاختبار
-  
-    
     console.log("✅ Page initialization completed!");
 });
 
@@ -72,34 +69,21 @@ function initializeFormSubmit() {
     
     console.log("✅ Form found:", form);
     
-    // إزالة أي معالجات سابقة (تجنب التكرار)
-    const newForm = form.cloneNode(true);
-    form.parentNode.replaceChild(newForm, form);
+    // الطريقة الصحيحة: إضافة معالج على النموذج
+    form.addEventListener("submit", handleFormSubmit);
     
-    // الحصول على النموذج الجديد
-    const freshForm = document.getElementById("projectInquiryForm");
-    const submitBtn = freshForm.querySelector('button[type="submit"]');
-    
-    if (!submitBtn) {
-        console.error("❌ ERROR: Submit button not found!");
-        return;
+    // معالج احتياطي للزر
+    const submitBtn = form.querySelector('button[type="submit"]');
+    if (submitBtn) {
+        submitBtn.addEventListener("click", function(e) {
+            console.log("🖱️ Submit button clicked!");
+        });
     }
-    
-    console.log("✅ Submit button found:", submitBtn);
-    
-    // الطريقة 1: إضافة معالج على النموذج
-    freshForm.addEventListener("submit", handleFormSubmit);
-    
-    // الطريقة 2: إضافة معالج على الزر مباشرة (كإجراء احتياطي)
-    submitBtn.addEventListener("click", function(e) {
-        console.log("🖱️ Submit button clicked!");
-        // لا نمنع السلوك الافتراضي هنا، دع النموذج يتعامل
-    });
     
     console.log("✅ Form submit handlers added successfully!");
 }
 
-// ============ معالج إرسال النموذج ============
+// ============ معالج إرسال النموذج - معدل ============
 async function handleFormSubmit(e) {
     console.log("🎯 FORM SUBMIT EVENT FIRED!");
     
@@ -110,19 +94,22 @@ async function handleFormSubmit(e) {
     console.log("✅ Default form submission prevented");
     
     // جمع بيانات النموذج
-    const formData = {
-        fullName: document.getElementById("fullName")?.value.trim() || "",
-        phoneNumber: document.getElementById("phoneNumber")?.value.trim() || "",
-        emailAddress: document.getElementById("emailAddress")?.value.trim() || "",
-        projectIdea: document.getElementById("projectIdea")?.value.trim() || "",
-        projectDescription: document.getElementById("projectDescription")?.value.trim() || "",
-        serviceType: document.getElementById("serviceType")?.value || ""
-    };
-    
-    console.log("📋 Form data collected:", formData);
+    const formElement = document.getElementById("projectInquiryForm");
+    const formData = new FormData(formElement);
     
     // التحقق من الصحة
-    const isValid = validateForm(formData);
+    const validationData = {
+        fullName: formData.get('fullName') || "",
+        phoneNumber: formData.get('phoneNumber') || "",
+        emailAddress: formData.get('emailAddress') || "",
+        projectIdea: formData.get('projectIdea') || "",
+        projectDescription: formData.get('projectDescription') || "",
+        serviceType: formData.get('serviceType') || ""
+    };
+    
+    console.log("📋 Form data collected:", validationData);
+    
+    const isValid = validateForm(validationData);
     console.log(`🔍 Form validation: ${isValid ? 'PASSED ✅' : 'FAILED ❌'}`);
     
     if (!isValid) {
@@ -133,72 +120,68 @@ async function handleFormSubmit(e) {
     // إظهار حالة التحميل
     const submitBtn = document.querySelector('#projectInquiryForm button[type="submit"]');
     const originalHTML = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
     submitBtn.disabled = true;
     
     try {
         // إرسال البيانات إلى الخادم
-        console.log("🌐 Sending data to server...");
+        console.log("🌐 إرسال البيانات إلى الخادم...");
         
-        // استخدام مسار نسبي (سيتم تعديله تلقائياً)
-        const backendUrl = 'backend/handler.php';
-        
-        const response = await fetch(backendUrl, {
+        // إرسال FormData مباشرة (بدون JSON)
+        const response = await fetch('backend/handler.php', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
+            body: formData
         });
         
-        console.log("📥 Server response status:", response.status);
+        console.log("📥 حالة الاستجابة من الخادم:", response.status);
         
-        // التحقق من نوع الاستجابة
-        const contentType = response.headers.get("content-type");
-        if (!contentType || !contentType.includes("application/json")) {
-            const text = await response.text();
-            console.error("❌ Server didn't return JSON:", text.substring(0, 200));
-            throw new Error("Server returned non-JSON response");
-        }
-        
-        const result = await response.json();
-        console.log("📊 Server response data:", result);
+        // قراءة النتيجة كنص
+        const resultText = await response.text();
+        console.log("📊 نص الاستجابة:", resultText.substring(0, 200) + "...");
         
         // عرض النتيجة للمستخدم
-        showFormMessage(result.message || "Submission completed", result.success ? "success" : "error");
-        
-        if (result.success) {
-            console.log("🎉 Form submitted successfully!");
+        const messageDiv = document.getElementById("formMessage");
+        if (messageDiv) {
+            messageDiv.innerHTML = resultText;
+            messageDiv.style.display = "block";
             
-            // إعادة تعيين النموذج بعد 2 ثانية
-            setTimeout(() => {
-                document.getElementById("projectInquiryForm").reset();
-                console.log("🔄 Form reset");
-            }, 2000);
-            
-        } else {
-            console.log("⚠️ Form submission failed:", result.message);
-            
-            // عرض أخطاء الحقول إذا وجدت
-            if (result.errors) {
-                Object.keys(result.errors).forEach(field => {
-                    const errorElement = document.getElementById(field + 'Error');
-                    if (errorElement && result.errors[field]) {
-                        errorElement.textContent = result.errors[field];
-                    }
-                });
+            // تحديد لون الرسالة بناءً على المحتوى
+            if (resultText.includes("Successfully") || 
+                resultText.includes("successfully") || 
+                resultText.includes("green")) {
+                messageDiv.style.color = "#28a745";
+                messageDiv.style.borderColor = "#28a745";
+                
+                // إعادة تعيين النموذج بعد 3 ثواني
+                setTimeout(() => {
+                    formElement.reset();
+                    console.log("🔄 تم إعادة تعيين النموذج");
+                    messageDiv.style.display = "none";
+                }, 3000);
+            } else {
+                messageDiv.style.color = "#dc3545";
+                messageDiv.style.borderColor = "#dc3545";
             }
         }
         
+        console.log("✅ تم إرسال النموذج بنجاح!");
+        
     } catch (error) {
-        console.error('💥 Error submitting form:', error);
-        showFormMessage("Error: " + error.message, "error");
+        console.error('💥 خطأ في إرسال النموذج:', error);
+        
+        // عرض رسالة الخطأ
+        const messageDiv = document.getElementById("formMessage");
+        if (messageDiv) {
+            messageDiv.textContent = "❌ حدث خطأ: " + error.message;
+            messageDiv.style.color = "#dc3545";
+            messageDiv.style.display = "block";
+        }
         
     } finally {
         // إعادة تمكين الزر
         submitBtn.innerHTML = originalHTML;
         submitBtn.disabled = false;
-        console.log("🔄 Submit button re-enabled");
+        console.log("🔄 تم إعادة تمكين زر الإرسال");
     }
 }
 
@@ -213,44 +196,44 @@ function validateForm(data) {
     
     // التحقق من الاسم الكامل
     if (!data.fullName) {
-        showFieldError("nameError", "Full name is required");
+        showFieldError("nameError", "Full name required");
         isValid = false;
     } else if (data.fullName.length < 2) {
-        showFieldError("nameError", "Name must be at least 2 characters");
+        showFieldError("nameError", "The name must be at least two letters long");
         isValid = false;
     }
     
     // التحقق من رقم الهاتف
     if (!data.phoneNumber) {
-        showFieldError("phoneError", "Phone number is required");
+        showFieldError("phoneError", "Phone number required");
         isValid = false;
     } else if (!/^[\d\s\-\+\(\)]{10,20}$/.test(data.phoneNumber)) {
-        showFieldError("phoneError", "Please enter a valid phone number");
+        showFieldError("phoneError", "Please enter a valid phone number.");
         isValid = false;
     }
     
     // التحقق من البريد الإلكتروني
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!data.emailAddress) {
-        showFieldError("emailError", "Email address is required");
+        showFieldError("emailError", "Email address required");
         isValid = false;
     } else if (!emailRegex.test(data.emailAddress)) {
-        showFieldError("emailError", "Please enter a valid email address");
+        showFieldError("emailError", "Please enter a valid email address.");
         isValid = false;
     }
     
     // التحقق من فكرة المشروع
     if (!data.projectIdea) {
-        showFieldError("ideaError", "Project idea is required");
+        showFieldError("ideaError", "Project idea required");
         isValid = false;
     } else if (data.projectIdea.length < 10) {
-        showFieldError("ideaError", "Please provide a more detailed project idea");
+        showFieldError("ideaError","Please provide a more detailed project proposal" );
         isValid = false;
     }
     
     // التحقق من وصف المشروع
     if (!data.projectDescription) {
-        showFieldError("descriptionError", "Project description is required");
+        showFieldError("descriptionError", "Project description required");
         isValid = false;
     } else if (data.projectDescription.length < 20) {
         showFieldError("descriptionError", "Please provide a more detailed description");
@@ -259,7 +242,7 @@ function validateForm(data) {
     
     // التحقق من نوع الخدمة
     if (!data.serviceType) {
-        showFieldError("serviceError", "Please select a service type");
+        showFieldError("serviceError", "Please select the service type");
         isValid = false;
     }
     
@@ -271,6 +254,9 @@ function showFieldError(fieldId, message) {
     const element = document.getElementById(fieldId);
     if (element) {
         element.textContent = message;
+        element.style.color = "#dc3545";
+        element.style.fontSize = "14px";
+        element.style.marginTop = "5px";
     }
 }
 
@@ -281,7 +267,7 @@ function showFormMessage(text, type) {
         formMessage.className = "form-message " + type;
         formMessage.style.display = "block";
         
-        // إخفاء الرسالة بعد 5 ثوان
+        // إخفاء الرسالة بعد 5 ثواني
         setTimeout(() => {
             formMessage.style.opacity = "0";
             setTimeout(() => {
@@ -289,60 +275,6 @@ function showFormMessage(text, type) {
                 formMessage.style.opacity = "1";
             }, 500);
         }, 5000);
-    }
-}
-
-// ============ إضافة زر تصحيح ============
-function addDebugButton() {
-    const debugBtn = document.createElement('button');
-    debugBtn.innerHTML = '🔧 DEBUG';
-    debugBtn.style.cssText = `
-        position: fixed;
-        bottom: 20px;
-        left: 20px;
-        z-index: 9999;
-        padding: 10px 15px;
-        background: #ff5722;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-weight: bold;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    `;
-    
-    debugBtn.addEventListener('click', function() {
-        console.log("=== DEBUG INFO ===");
-        
-        // اختبار النموذج
-        const form = document.getElementById("projectInquiryForm");
-        console.log("Form exists:", !!form);
-        
-        if (form) {
-            // اختبار الإرسال اليدوي
-            form.dispatchEvent(new Event('submit'));
-            console.log("Manual submit triggered");
-        }
-        
-        // اختبار الاتصال بالخادم
-        testBackendConnection();
-    });
-    
-    document.body.appendChild(debugBtn);
-    console.log("✅ Debug button added");
-}
-
-// ============ اختبار الاتصال بالخادم ============
-async function testBackendConnection() {
-    console.log("Testing backend connection...");
-    
-    try {
-        const response = await fetch('backend/handler.php', {
-            method: 'HEAD'
-        });
-        console.log(`Backend status: ${response.status} ${response.statusText}`);
-    } catch (error) {
-        console.error("Backend connection failed:", error);
     }
 }
 
@@ -542,7 +474,7 @@ function playIntroVideo() {
     if (modal && video) {
         modal.style.display = "block";
         video.play().catch(e => {
-            alert("Please click the play button in the video player");
+            alert("يرجى النقر على زر التشغيل في مشغل الفيديو");
         });
     }
 }
@@ -561,7 +493,7 @@ function playAudio() {
     const audio = document.getElementById("testimonialAudio");
     if (audio) {
         audio.play().catch(e => {
-            alert("Please click the play button in the audio player");
+            alert("يرجى النقر على زر التشغيل في مشغل الصوت");
         });
     }
 }
@@ -609,31 +541,10 @@ function resetForm() {
 
 async function loadDynamicData() {
     try {
-        console.log("Loading dynamic data...");
+        console.log("جاري تحميل البيانات الديناميكية...");
+        // يمكنك إضافة كود لتحميل البيانات هنا
     } catch (error) {
-        console.error("Error loading dynamic data:", error);
-    }
-}
-
-async function loadServices() {
-    try {
-        const response = await fetch('backend/handler.php?action=getServices');
-        if (!response.ok) throw new Error('Failed to fetch services');
-        return await response.json();
-    } catch (error) {
-        console.error('Failed to load services:', error);
-        return [];
-    }
-}
-
-async function loadTeamMembers() {
-    try {
-        const response = await fetch('backend/handler.php?action=getTeam');
-        if (!response.ok) throw new Error('Failed to fetch team');
-        return await response.json();
-    } catch (error) {
-        console.error('Failed to load team:', error);
-        return [];
+        console.error("خطأ في تحميل البيانات الديناميكية:", error);
     }
 }
 
@@ -643,4 +554,33 @@ if (resetButton) {
     resetButton.addEventListener("click", resetForm);
 }
 
-console.log("✅ Main.js loaded successfully!");
+// ============ وظيفة اختبار الاتصال ============
+async function testBackendConnection() {
+    console.log("🔍 اختبار الاتصال بالخادم...");
+    
+    try {
+        // إنشاء بيانات اختبار
+        const testFormData = new FormData();
+        testFormData.append('fullName', 'Test User');
+        testFormData.append('phoneNumber', '01012345678');
+        testFormData.append('emailAddress', 'test@example.com');
+        testFormData.append('projectIdea', 'Test Project Idea');
+        testFormData.append('projectDescription', 'This is a test description for testing purposes');
+        testFormData.append('serviceType', 'web');
+        
+        const response = await fetch('backend/handler.php', {
+            method: 'POST',
+            body: testFormData
+        });
+        
+        const resultText = await response.text();
+        console.log("✅ نتيجة الاختبار:", resultText.substring(0, 100) + "...");
+        
+    } catch (error) {
+        console.error("❌ فشل اختبار الاتصال:", error);
+    }
+}
+
+console.log("✅ تم تحميل main.js بنجاح!");
+
+
