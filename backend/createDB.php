@@ -42,5 +42,5 @@ if ($conn->query($sql_table)) {
 
 $conn->close();
 
-echo "<br><a href='../../index.htm'>← Go to Website</a>";
+echo "<br><a href='../index.htm'>← Go to Website</a>";
 ?>
