@@ -1306,11 +1306,11 @@ textarea.form-control {
 }
 .form-group select
 {
-    width: 100%;
+  width: 100%;
   padding: 12px 15px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  background-color: black ; 
+  background-color: var(--card-bg) ; 
   color: var(--text-color);
   font-size: 1rem;
   transition: all 0.3s;
@@ -1406,6 +1406,10 @@ body.light-mode .form-group textarea {
   background-color: rgba(244, 67, 54, 0.2);
   color: #f44336;
   display: block;
+}
+
+.form-submit .btn {
+  flex: 1;
 }
 
 /* الفوتر */
