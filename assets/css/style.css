@@ -653,13 +653,6 @@ body.light-mode .skill-bar {
   color: var(--text-muted);
 }
 
-.service-price {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: var(--primary-color);
-  margin-bottom: 20px;
-}
-
 .service-link {
   display: inline-block;
   color: var(--accent-color);
@@ -949,7 +942,8 @@ body.light-mode .skill-bar {
 /* قسم الفريق */
 .team-photo {
   display: block;
-  width: 600px;
+  height: 513px;
+  width: minmax(250px, 600px);
   border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: var(--shadow);
@@ -1052,6 +1046,7 @@ body.light-mode .skill-bar {
   background-color: var(--card-bg);
   padding: 30px;
   border-radius: var(--border-radius);
+  text-align: center; 
 }
 
 .tech-category h3 {
@@ -1060,10 +1055,13 @@ body.light-mode .skill-bar {
   font-size: 1.5rem;
   border-bottom: 2px solid rgba(108, 99, 255, 0.2);
   padding-bottom: 10px;
+  display: block; 
 }
 
 .tech-list {
   list-style: none;
+  display: inline-block; 
+  text-align: left; 
 }
 
 .tech-list li {
@@ -1086,12 +1084,13 @@ body.light-mode .skill-bar {
 }
 
 .pricing-table-grid {
-  width: 100%;
+  width: 80%;
   border-collapse: collapse;
   background-color: var(--card-bg);
   border-radius: var(--border-radius);
   overflow: hidden;
   box-shadow: var(--shadow);
+  justify-self: center;
 }
 
 .pricing-table-grid th {
@@ -1441,23 +1440,6 @@ footer {
 
 .footer-section ul li a:hover {
   color: var(--primary-color);
-}
-
-.footer-bottom {
-  text-align: center;
-  padding-top: 30px;
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
-  color: var(--text-muted);
-  font-size: 0.9rem;
-}
-
-.footer-bottom a {
-  color: var(--primary-color);
-  text-decoration: none;
-}
-
-.footer-bottom i.fa-heart {
-  color: #e74c3c;
 }
 
 .social-links {

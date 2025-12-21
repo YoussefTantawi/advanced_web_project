@@ -468,27 +468,6 @@ if (modal && modalImg) {
 }
 
 // ============ وسائط الفيديو والصوت ============
-function playIntroVideo() {
-    const modal = document.getElementById("videoModal");
-    const video = document.getElementById("introVideo");
-    if (modal && video) {
-        modal.style.display = "block";
-        video.play().catch(e => {
-            alert("يرجى النقر على زر التشغيل في مشغل الفيديو");
-        });
-    }
-}
-
-function closeIntroVideo() {
-    const modal = document.getElementById("videoModal");
-    const video = document.getElementById("introVideo");
-    if (modal && video) {
-        modal.style.display = "none";
-        video.pause();
-        video.currentTime = 0;
-    }
-}
-
 function playAudio() {
     const audio = document.getElementById("testimonialAudio");
     if (audio) {

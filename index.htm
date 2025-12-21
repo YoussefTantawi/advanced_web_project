@@ -38,7 +38,7 @@
                         <li><a href="#technologies">Technologies</a></li>
                         <li><a href="#pricing">Pricing</a></li>
                         <li><a href="#media">Media</a></li>
-                        <li><a href="">Contact</a></li>
+                        <li><a href="#contact">Contact</a></li>
                     </ul>
                     <button class="theme-toggle" id="themeToggle">
                         <i class="fas fa-moon"></i>
@@ -56,16 +56,13 @@
         <div class="container">
             <div class="hero-content">
                 <img src="assets/images/icons/Code Knights Cropped.png" alt="Code Knights" width="200">
-                <h1>We Build <span class="highlight">Digital Experiences</span></h1>
+                <h1>We Are <span class="highlight">Code Knights</span></h1>
                 <h2>A team of passionate developers and designers creating innovative solutions</h2>
                 <p>We specialize in web development, mobile apps, UI/UX design, and e-commerce solutions for modern
                     businesses. Our team delivers exceptional results that drive growth and success.</p>
                 <div class="hero-btns">
-                    <a href="#services" class="btn">Our Services</a>
+                    <a href="#services" class="btn btn-outline">Our Services</a>
                     <a href="#contact" class="btn btn-outline">Start a Project</a>
-                    <button class="btn" onclick="playIntroVideo()">
-                        <i class="fas fa-play"></i> Play Intro
-                    </button>
                 </div>
             </div>
         </div>
@@ -82,21 +79,46 @@
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-icon">
-                        <i class="fas fa-laptop-code"></i>
+                        <i class="fas fa-mobile-alt"></i>
                     </div>
-                    <h3>Web Development</h3>
-                    <p>Custom web applications built with modern technologies</p>
-                    <div class="service-price">$2,000 - $10,000</div>
+                    <h3>Mobile Apps</h3>
+                    <p>Native and cross-platform mobile applications</p>
                     <a href="#pricing" class="service-link">View Pricing →</a>
                 </div>
 
                 <div class="service-card">
                     <div class="service-icon">
-                        <i class="fas fa-mobile-alt"></i>
+                        <i class="fas fa-laptop-code"></i>
                     </div>
-                    <h3>Mobile Apps</h3>
-                    <p>Native and cross-platform mobile applications</p>
-                    <div class="service-price">$5,000 - $20,000</div>
+                    <h3>Web Development</h3>
+                    <p>Custom web applications built with modern technologies</p>
+                    <a href="#pricing" class="service-link">View Pricing →</a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3>Cloud Authentication</h3>
+                    <p>Secure authentication solutions for cloud applications</p>
+                    <a href="#pricing" class="service-link">View Pricing →</a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Building Database</h3>
+                    <p>Design and implementation of robust database systems</p>
+                    <a href="#pricing" class="service-link">View Pricing →</a>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>E-commerce</h3>
+                    <p>Complete online store solutions</p><br>
                     <a href="#pricing" class="service-link">View Pricing →</a>
                 </div>
 
@@ -106,17 +128,6 @@
                     </div>
                     <h3>UI/UX Design</h3>
                     <p>Beautiful and intuitive user interface designs</p>
-                    <div class="service-price">$1,000 - $5,000</div>
-                    <a href="#pricing" class="service-link">View Pricing →</a>
-                </div>
-
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
-                    <h3>E-commerce</h3>
-                    <p>Complete online store solutions</p>
-                    <div class="service-price">$3,000 - $15,000</div>
                     <a href="#pricing" class="service-link">View Pricing →</a>
                 </div>
             </div>
@@ -135,21 +146,25 @@
             <div class="team-grid">
                 <div class="team-card" onclick="openTeamMemberProfile('pages/team/assem.html')">
                     <div class="team-img">
-                        <img src="assets/images/team/Assem.jpg" alt="Assem">
+                        <img src="assets/images/team/Assem Cropped.jpg" alt="Assem">
                     </div>
                     <h3>Assem Mostafa</h3>
                     <p class="team-role">Frontend Developer</p>
                     <ul class="team-skills">
-                        <li>HTML</li>
-                        <li>CSS</li>
+                        <li>HTML 5</li>
+                        <li>CSS 3</li>
+                        <li>JavaScript</li>
                         <li>TypeScript</li>
+                        <li>PHP 7</li>
+                        <li>React</li>
+                        <li>WinForm</li>
                     </ul>
-                    <a href="#technologies" class="team-profile">View Skills</a>
+                    <p class="team-profile">View Skills</p>
                 </div>
 
                 <div class="team-card" onclick="openTeamMemberProfile('pages/team/Ojaly.html')">
                     <div class="team-img">
-                        <img src="assets/images/team/Ojaly.jpg" alt="Ojaly">
+                        <img src="assets/images/team/Ojaly Cropped.jpg" alt="Ojaly">
                     </div>
                     <h3>Mahmoud Zarrouk</h3>
                     <p class="team-role">Full Stack .Net Developer</p>
@@ -158,26 +173,30 @@
                         <li>Entity Framework Core & SQL Server</li>
                         <li>HTML & CSS & JavaScript & Bootstrap</li>
                     </ul>
-                    <a href="#technologies" class="team-profile">View Skills</a>
+                    <p class="team-profile">View Skills</p>
                 </div>
 
                 <div class="team-card" onclick="openTeamMemberProfile('pages/team/tantawi.html')">
                     <div class="team-img">
-                        <img src="assets/images/team/Tantawi.jpg" alt="Tantawi">
+                        <img src="assets/images/team/Tantawi Cropped.jpg" alt="Tantawi">
                     </div>
                     <h3>Youssef Tantawi</h3>
-                    <p class="team-role">Flutter Developer</p>
+                    <p class="team-role">Application Developer</p>
                     <ul class="team-skills">
+                        <li>Flutter</li>
+                        <li>Kotlin</li>
+                        <li>Java</li>
+                        <li>UI/UX Design</li>
                         <li>Networking & APIs</li>
-                        <li>State Management</li>
-                        <li>Dart</li>
+                        <li>Firebase</li>
+                        <li>Supabase</li>
                     </ul>
-                    <a href="#technologies" class="team-profile">View Skills</a>
+                    <p class="team-profile">View Skills</p>
                 </div>
 
                 <div class="team-card" onclick="openTeamMemberProfile('pages/team/abdo.html')">
                     <div class="team-img">
-                        <img src="assets/images/team/Abdo.jpg" alt="Abdo">
+                        <img src="assets/images/team/Abdo Cropped.jpg" alt="Abdo">
                     </div>
                     <h3>Abdelrahman Diaa</h3>
                     <p class="team-role"> Full Stack .Net Developer </p>
@@ -187,7 +206,7 @@
                         <li>HTML & CSS & JavaScript & Bootstrap</li>
 
                     </ul>
-                    <a href="#technologies" class="team-profile">View Skills</a>
+                    <p class="team-profile">View Skills</p>
                 </div>
             </div>
         </div>
@@ -205,10 +224,12 @@
                 <div class="tech-category">
                     <h3>Frontend Technologies</h3>
                     <ul class="tech-list">
+                        <li><i class="fas fa-mobile-alt"></i> Flutter</li>
+                        <li><i class="fab fa-android"></i> Kotlin</li>
+                        <li><i class="fab fa-java"></i> Java</li>
+                        <li><i class="fab fa-windows"></i> Windows Forms</li>
                         <li><i class="fab fa-react"></i> React & Next.js</li>
-                        <li><i class="fab fa-vuejs"></i> Vue.js & Nuxt.js</li>
-                        <li><i class="fab fa-js-square"></i> TypeScript</li>
-                        <li><i class="fas fa-paint-brush"></i> Tailwind CSS</li>
+                        <li><i class="fab fa-js-square"></i> JavaScript & TypeScript</li>
                         <li><i class="fab fa-html5"></i> HTML5 & CSS3</li>
                     </ul>
                 </div>
@@ -216,11 +237,13 @@
                 <div class="tech-category">
                     <h3>Backend Technologies</h3>
                     <ul class="tech-list">
-                        <li><i class="fab fa-node-js"></i> Node.js & Express</li>
-                        <li><i class="fab fa-python"></i> Python & Django</li>
-                        <li><i class="fas fa-database"></i> PostgreSQL & MongoDB</li>
+                        <li><i class="fas fa-fire"></i> Firebase</li>
+                        <li><i class="fas fa-bolt"></i> Supabase</li>
+                        <li><i class="fas fa-cloud"></i> Clouds</li>
                         <li><i class="fas fa-code"></i> RESTful APIs</li>
-                        <li><i class="fas fa-project-diagram"></i> GraphQL</li>
+                        <li><i class="fas fa-server"></i> MySQL & PHP</li>
+                        <li><i class="fas fa-database"></i> Entity Framework Core</li>
+                        <li><i class="fas fa-search"></i> LinQ</li>
                     </ul>
                 </div>
             </div>
@@ -239,7 +262,6 @@
                 <thead>
                     <tr>
                         <th>Service</th>
-                        <th>Description</th>
                         <th>Price Range</th>
                         <th>Delivery Time</th>
                     </tr>
@@ -247,27 +269,33 @@
                 <tbody>
                     <tr>
                         <td>Web Development</td>
-                        <td>Custom web applications built with modern technologies</td>
                         <td>$2,000 - $10,000</td>
                         <td>2-4 weeks</td>
                     </tr>
                     <tr>
                         <td>Mobile Apps</td>
-                        <td>Native and cross-platform mobile applications</td>
                         <td>$5,000 - $20,000</td>
                         <td>4-8 weeks</td>
                     </tr>
                     <tr>
-                        <td>UI/UX Design</td>
-                        <td>Beautiful and intuitive user interface designs</td>
-                        <td>$1,000 - $5,000</td>
-                        <td>1-2 weeks</td>
+                        <td>Cloud Authentication</td>
+                        <td>$3,000 - $6,000</td>
+                        <td>2-3 weeks</td>
+                    </tr>
+                    <tr>
+                        <td>Building Database</td>
+                        <td>$4,000 - $8,000</td>
+                        <td>3-5 weeks</td>
                     </tr>
                     <tr>
                         <td>E-commerce</td>
-                        <td>Complete online store solutions</td>
                         <td>$3,000 - $15,000</td>
                         <td>3-6 weeks</td>
+                    </tr>
+                    <tr>
+                        <td>UI/UX Design</td>
+                        <td>$1,000 - $5,000</td>
+                        <td>1-2 weeks</td>
                     </tr>
                 </tbody>
             </table>
@@ -286,7 +314,7 @@
                 <div class="video-wrapper">
                     <h3>Company Introduction</h3>
                     <div class="video-container">
-                        <iframe src="assets/vIdeo/Tunissian_JOO.mp4" title="Company Introduction"
+                        <iframe src="" title="Logo Intro"
                             frameborder="0"
                             allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowfullscreen></iframe>
@@ -299,10 +327,10 @@
                     <div class="audio-player">
                         <div class="audio-info">
                             <h4>John Smith, CEO of TechCorp</h4>
-                            <p>"TM Team delivered exceptional results for our e-commerce platform."</p>
+                            <p>"Code Knights Team delivered exceptional results for my website."</p>
                         </div>
                         <audio controls id="testimonialAudio">
-                            <source src="assets/Sound/LaYalAbas.mp3"
+                            <source src=""
                                 type="audio/mpeg">
                             Your browser does not support the audio element.
                         </audio>
@@ -456,54 +484,12 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>Code Knights Team Portfolio</h3>
-                    <p>Creating innovative digital solutions for modern businesses since 2020.</p>
-                              <div class="social-links">
-                <a href="mailto:codenighteg@gmail.com">
-                    <i class="fas fa-envelope"></i>
-                </a>
-            </div>
+                    <p>Your trusted partner for digital innovation</p>
+                    <p>&copy; <span id="currentYear"></span> Code Knights.</p>
                 </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#team">Our Team</a></li>
-                        <li><a href="#contact">Contact</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Services</h3>
-                    <ul>
-                        <li><a href="#services">Web Development</a></li>
-                        <li><a href="#services">Mobile Apps</a></li>
-                        <li><a href="#services">UI/UX Design</a></li>
-                        <li><a href="#services">E-commerce</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; <span id="currentYear"></span> Code Knights.</p>
             </div>
         </div>
     </footer>
-
-    <!-- نافذة الفيديو التعريفي -->
-    <div id="videoModal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeIntroVideo()">&times;</span>
-            <h3>Welcome to TM Team Portfolio</h3>
-            <div class="modal-video">
-                <video controls id="introVideo">
-                    <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                        type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-            <p>Watch our introduction video to learn more about our team and services.</p>
-        </div>
-    </div>
-
 
     <script src="assets/js/main.js"></script>
 
