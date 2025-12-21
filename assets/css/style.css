@@ -1304,6 +1304,17 @@ textarea.form-control {
   font-size: 1rem;
   transition: all 0.3s;
 }
+.form-group select
+{
+    width: 100%;
+  padding: 12px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background-color: black ; 
+  color: var(--text-color);
+  font-size: 1rem;
+  transition: all 0.3s;
+}
 
 body.light-mode .form-group input,
 body.light-mode .form-group select,
